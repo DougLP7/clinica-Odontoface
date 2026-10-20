@@ -1,0 +1,5 @@
+COLOQUE AQUI AS FOTOS DE ANTES E DEPOIS
+
+Nomes: ba-01.jpg, ba-02.jpg ... até ba-12.jpg
+Formato: antes à esquerda e depois à direita, de preferência 1200 x 900 (deitada).
+A página mostra sozinha as fotos que existirem, na ordem dos números.

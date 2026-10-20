@@ -1,0 +1,13 @@
+COLOQUE AQUI AS FOTOS DA CLÍNICA
+
+Nomes e lugar na página:
+clinica-01.jpg  Recepção
+clinica-02.jpg  Consultório
+clinica-03.jpg  Sala de espera
+clinica-04.jpg  Fachada
+clinica-05.jpg  Equipe
+clinica-06.jpg  Atendimento
+clinica-07.jpg  Estrutura
+clinica-08.jpg  Tecnologia
+
+Formato: em pé (vertical), de preferência 900 x 1200.

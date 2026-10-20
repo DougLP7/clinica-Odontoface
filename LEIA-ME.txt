@@ -1,0 +1,71 @@
+LP ODONTOFACE — IMPLANTES DENTÁRIOS
+===================================
+
+O QUE TEM NESTA PASTA
+- index.html ................. a página inteira (design, textos, pop-up, planilha e conversão)
+- assets/img ................. Dra. Letícya, logo, imagens 3D dos tratamentos, capa e ícones
+- assets/img/antes-depois .... onde entram as fotos de antes e depois (ba-01.jpg ... ba-12.jpg)
+- assets/img/clinica ......... onde entram as fotos da clínica (clinica-01.jpg ... clinica-08.jpg)
+- assets/video ............... onde entram os vídeos (depoimento.mp4, dra-leticya-1.mp4, dra-leticya-2.mp4)
+- apps-script-planilha.txt ... código da planilha de leads (Google Sheets)
+
+
+1) GITHUB PAGES (mesma conta das outras LPs)
+   Settings > Pages > Source: "Deploy from a branch" > Branch: main / (root) > Save.
+   Em 1 a 2 minutos a LP fica no ar em: https://douglp7.github.io/ODONTOFACE-LP/
+
+
+2) MODO PRÉVIA x MODO CAMPANHA (topo do index.html)
+   var MODO_PREVIA = true;   -> mostra os espaços reservados (fotos, vídeos, CRO, depoimentos)
+                                com o nome do arquivo que falta. Use enquanto monta a página.
+   var MODO_PREVIA = false;  -> esconde sozinho tudo o que ainda não foi enviado.
+                                Use quando for ligar o tráfego pago.
+   Se uma seção inteira estiver sem material (ex.: nenhum antes e depois), ela some da página.
+
+
+3) COMO ADICIONAR FOTOS E VÍDEOS (sem mexer no código)
+   Basta subir o arquivo com o nome certo na pasta certa. A página encontra sozinha.
+   - Antes e depois: assets/img/antes-depois/ba-01.jpg até ba-12.jpg
+     (antes à esquerda, depois à direita, ideal 1200 x 900)
+   - Clínica: assets/img/clinica/clinica-01.jpg até clinica-08.jpg (em pé, ideal 900 x 1200)
+       01 Recepção · 02 Consultório · 03 Sala de espera · 04 Fachada
+       05 Equipe · 06 Atendimento · 07 Estrutura · 08 Tecnologia
+   - Vídeos (em pé, .mp4, até ~20 MB):
+       assets/video/depoimento.mp4      (a foto de capa do depoimento já está na página)
+       assets/video/dra-leticya-1.mp4   "Por que repor o dente perdido?"
+       assets/video/dra-leticya-2.mp4   "Como funciona o implante?"
+
+
+4) PLANILHA DE LEADS (Google Sheets + Apps Script)
+   a. Crie uma planilha nova e vazia no Google Sheets.
+   b. Extensões > Apps Script > apague o conteúdo > cole TODO o apps-script-planilha.txt > salvar.
+   c. Escolha a função "configurarPlanilha" e clique em Executar (autorize na primeira vez).
+      A planilha é montada sozinha: aba "Painel" (números e gráficos) e aba "Leads".
+   d. Implantar > Nova implantação > App da Web | Executar como: Eu | Acesso: Qualquer pessoa.
+   e. Copie a URL que termina em /exec e cole em CONFIG.APPS_SCRIPT_URL (ou mande para o Claude).
+   f. (Opcional) Rode "testarLead" para ver um lead de teste aparecer; depois apague a linha.
+
+
+5) CONFIGURAR O index.html (bloco CONFIG, perto do final do arquivo)
+   - WHATSAPP_NUMBER: já configurado com 55 71 2101-2834
+   - APPS_SCRIPT_URL: a URL /exec do passo 4
+   - GTM_ID: quando o gestor de tráfego enviar, ex.: "GTM-ABC1234" (o GTM carrega sozinho)
+
+
+6) CONVERSÃO NO GOOGLE ADS (para o gestor de tráfego)
+   - Evento do dataLayer: lead_whatsapp
+   - Só dispara quando a pessoa preenche nome + WhatsApp válidos, envia, e é
+     redirecionada para o WhatsApp da clínica. O redirecionamento acontece logo
+     depois que a tag dispara (eventCallback), então não existe conversão sem WhatsApp.
+     Clicar em botão, abrir ou fechar o pop-up NÃO conta lead.
+   - Variáveis enviadas junto: lead_origem, lead_nome, lead_whatsapp
+   - No GTM: Acionador > Evento personalizado > nome do evento: lead_whatsapp
+     e ligar esse acionador à tag de conversão do Google Ads.
+   - A planilha também recebe utm_campaign, utm_source/medium, utm_term e gclid.
+
+
+7) PONTOS PARA PREENCHER (procure por "EDITAR" ou "vazio" no index.html)
+   - CRO da Dra. Letícya: troque "CRO-BA 00000" (2 lugares: seção da doutora e rodapé)
+     e apague a palavra "todo" do class.
+   - Depoimentos escritos: troque o texto e o nome de cada card e apague a palavra
+     "vazio" do class="review vazio".

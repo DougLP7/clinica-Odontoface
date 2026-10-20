@@ -1,0 +1,377 @@
+/* =====================================================================
+   PLANILHA DE LEADS — LP ODONTOFACE (Implantes dentários)
+   ---------------------------------------------------------------------
+   COMO USAR (uma vez só):
+   1) Crie uma planilha nova e vazia no Google Sheets.
+   2) Menu Extensões > Apps Script. Apague o que estiver lá e cole TODO
+      este código. Clique no disquete (Salvar).
+   3) No menu ao lado do botão "Executar", escolha  configurarPlanilha
+      e clique em Executar. Autorize quando o Google pedir.
+      -> A planilha é montada sozinha: abas "Painel" e "Leads".
+   4) Implantar > Nova implantação > Tipo: App da Web
+      Executar como: Eu  |  Quem pode acessar: Qualquer pessoa
+      -> Copie a URL que termina em /exec e mande para o Claude.
+   (Opcional) Rode  testarLead  para ver um lead de teste aparecer.
+   ===================================================================== */
+
+var CORES = {
+  vinho: '#0B1446', vinho2: '#16216A', vinho3: '#1F47C9', escuro: '#040820',
+  rose: '#EEF3FB', rose2: '#E1E9F6', linha: '#D5DDEC', texto: '#1A2342', cinza: '#6A7389', branco: '#FFFFFF'
+};
+// (os nomes "vinho"/"rose" vêm do modelo original; aqui guardam os tons azul-marinho da Odontoface)
+var FONTE_TITULO = 'Montserrat';
+var FONTE_TEXTO = 'Montserrat';
+
+var CABECALHO = ['Data e hora', 'Nome', 'WhatsApp', 'Conversa', 'Status', 'Botão de origem',
+                 'Campanha', 'Fonte / mídia', 'Palavra-chave', 'GCLID', 'Página'];
+var STATUS = [
+  ['Novo',          '#DCE7FF', '#1F47C9'],
+  ['Em contato',    '#FFF1D6', '#8A5A00'],
+  ['Agendado',      '#E3DDFB', '#4B2D9A'],
+  ['Fechou',        '#DDF5E3', '#1E6B37'],
+  ['Sem interesse', '#ECE9EA', '#5F5557']
+];
+
+/* ---------------------------------------------------------------------
+   RECEBE OS LEADS DA LANDING PAGE
+   --------------------------------------------------------------------- */
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+  try {
+    if (!e || !e.postData || !e.postData.contents) {
+      return saida_({ status: 'erro', msg: 'Sem dados. Esta função é chamada pelo site.' });
+    }
+    var d = JSON.parse(e.postData.contents);
+    var sh = abaLeads_();
+    var whats = String(d.whatsapp || '').replace(/\D/g, '');
+    if (whats.length === 12 || whats.length === 13) { if (whats.indexOf('55') === 0) whats = whats.slice(2); }
+
+    sh.appendRow([
+      new Date(),
+      limpar_(d.nome),
+      formatarFone_(whats),
+      '',
+      'Novo',
+      limpar_(d.origem) || 'Landing page',
+      limpar_(d.campanha) || '(sem campanha)',
+      limpar_(d.fonte) || '(direto)',
+      limpar_(d.termo),
+      limpar_(d.gclid),
+      limpar_(d.pagina)
+    ]);
+
+    var r = sh.getLastRow();
+    if (whats) {
+      var link = SpreadsheetApp.newRichTextValue()
+        .setText('💬 Chamar no WhatsApp')
+        .setLinkUrl('https://wa.me/55' + whats)
+        .build();
+      sh.getRange(r, 4).setRichTextValue(link);
+    }
+    sh.getRange(r, 1).setNumberFormat('dd/MM/yyyy HH:mm');
+    return saida_({ status: 'ok' });
+  } catch (err) {
+    return saida_({ status: 'erro', msg: String(err) });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function doGet() {
+  return saida_({ status: 'ok', msg: 'Planilha de leads da Odontoface ativa.' });
+}
+
+/* ---------------------------------------------------------------------
+   MONTA A PLANILHA INTEIRA (rodar uma vez)
+   --------------------------------------------------------------------- */
+function configurarPlanilha() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  ss.setSpreadsheetTimeZone('America/Sao_Paulo');
+  try { ss.setSpreadsheetLocale('pt_BR'); } catch (e) {}
+  ss.rename('Leads Odontoface · LP Implantes');
+
+  var leads = montarLeads_(ss);
+  var dados = montarDados_(ss);
+  var painel = montarPainel_(ss, dados);
+
+  // ordem das abas: Painel, Leads, (Dados escondida)
+  ss.setActiveSheet(painel); ss.moveActiveSheet(1);
+  ss.setActiveSheet(leads); ss.moveActiveSheet(2);
+  dados.hideSheet();
+  ss.getSheets().forEach(function (s) {
+    if (['Painel', 'Leads', 'Dados'].indexOf(s.getName()) === -1 && s.getLastRow() === 0) ss.deleteSheet(s);
+  });
+  ss.setActiveSheet(painel);
+  SpreadsheetApp.flush();
+}
+
+/* ---------- Aba LEADS ---------- */
+function montarLeads_(ss) {
+  var sh = ss.getSheetByName('Leads');
+  if (!sh) {
+    var vazia = ss.getSheets().filter(function (s) { return s.getLastRow() === 0 && s.getName() !== 'Painel' && s.getName() !== 'Dados'; })[0];
+    sh = vazia ? vazia.setName('Leads') : ss.insertSheet('Leads');
+  }
+  var max = Math.max(sh.getMaxRows(), 1000);
+  if (sh.getMaxRows() < 1000) sh.insertRowsAfter(sh.getMaxRows(), 1000 - sh.getMaxRows());
+  if (sh.getMaxColumns() < CABECALHO.length) sh.insertColumnsAfter(sh.getMaxColumns(), CABECALHO.length - sh.getMaxColumns());
+  if (sh.getMaxColumns() > CABECALHO.length) sh.deleteColumns(CABECALHO.length + 1, sh.getMaxColumns() - CABECALHO.length);
+
+  sh.setTabColor(CORES.vinho);
+  sh.getRange(1, 1, 1, CABECALHO.length).setValues([CABECALHO]);
+
+  var tudo = sh.getRange(1, 1, max, CABECALHO.length);
+  tudo.setFontFamily(FONTE_TEXTO).setFontSize(10).setFontColor(CORES.texto).setVerticalAlignment('middle');
+
+  var cab = sh.getRange(1, 1, 1, CABECALHO.length);
+  cab.setFontWeight('bold').setFontSize(10).setFontColor(CORES.branco).setBackground(CORES.vinho)
+     .setHorizontalAlignment('center').setWrap(true);
+  sh.setRowHeight(1, 42);
+  sh.setRowHeights(2, max - 1, 30);
+  sh.setFrozenRows(1);
+  sh.setFrozenColumns(2);
+
+  var larguras = [140, 210, 150, 190, 140, 210, 170, 140, 140, 150, 240];
+  larguras.forEach(function (w, i) { sh.setColumnWidth(i + 1, w); });
+
+  sh.getRange(2, 1, max - 1, 1).setNumberFormat('dd/MM/yyyy HH:mm').setHorizontalAlignment('center');
+  sh.getRange(2, 2, max - 1, 1).setFontWeight('bold');
+  sh.getRange(2, 3, max - 1, 1).setHorizontalAlignment('center');
+  sh.getRange(2, 4, max - 1, 2).setHorizontalAlignment('center');
+  sh.getRange(2, 7, max - 1, 5).setFontColor(CORES.cinza).setFontSize(9);
+
+  // listras nas cores da marca
+  sh.getBandings().forEach(function (b) { b.remove(); });
+  tudo.applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY, true, false)
+      .setHeaderRowColor(CORES.vinho).setFirstRowColor(CORES.branco).setSecondRowColor('#F5F8FD');
+
+  // status com lista suspensa
+  var regraLista = SpreadsheetApp.newDataValidation()
+      .requireValueInList(STATUS.map(function (s) { return s[0]; }), true)
+      .setAllowInvalid(false).build();
+  sh.getRange(2, 5, max - 1, 1).setDataValidation(regraLista).setFontWeight('bold');
+
+  // cores do status + destaque para leads de hoje
+  var rStatus = sh.getRange(2, 5, max - 1, 1);
+  var regras = STATUS.map(function (s) {
+    return SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo(s[0])
+      .setBackground(s[1]).setFontColor(s[2]).setRanges([rStatus]).build();
+  });
+  regras.push(SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied('=AND($A2<>"",$A2>=TODAY())')
+    .setBackground('#FFF8E6').setRanges([sh.getRange(2, 1, max - 1, 3)]).build());
+  sh.setConditionalFormatRules(regras);
+
+  if (!sh.getFilter()) sh.getRange(1, 1, max, CABECALHO.length).createFilter();
+  sh.getRange(1, 1, max, CABECALHO.length).setBorder(null, null, null, null, false, true, CORES.linha, SpreadsheetApp.BorderStyle.SOLID);
+  return sh;
+}
+
+/* ---------- Aba DADOS (escondida, alimenta os gráficos) ---------- */
+function montarDados_(ss) {
+  var sh = ss.getSheetByName('Dados') || ss.insertSheet('Dados');
+  sh.clear();
+  sh.getCharts().forEach(function (c) { sh.removeChart(c); });
+
+  // leads por dia (14 dias)
+  sh.getRange('A1:C1').setValues([['Dia', 'Leads', 'Data']]);
+  var f = [];
+  for (var i = 0; i < 14; i++) {
+    var lin = i + 2;
+    f.push([
+      '=TEXT(C' + lin + ',"dd/mm")',
+      '=COUNTIFS(Leads!$A$2:$A,">="&C' + lin + ',Leads!$A$2:$A,"<"&(C' + lin + '+1))',
+      '=TODAY()-' + (13 - i)
+    ]);
+  }
+  sh.getRange(2, 1, 14, 3).setFormulas(f);
+
+  // últimos 10 leads
+  sh.getRange('E1').setValue('Últimos leads');
+  sh.getRange('E2').setFormula('=IFERROR(QUERY({Leads!A2:C,Leads!E2:E},"select Col1,Col2,Col3,Col4 where Col2 is not null order by Col1 desc limit 10",0),"")');
+
+  // por botão de origem
+  sh.getRange('J1').setValue('Por botão');
+  sh.getRange('J2').setFormula('=IFERROR(QUERY({Leads!F2:F},"select Col1, count(Col1) where Col1 is not null group by Col1 order by count(Col1) desc label Col1 \'Botão\', count(Col1) \'Leads\'",0),{"Botão","Leads";"Aguardando leads",0})');
+
+  // por campanha
+  sh.getRange('M1').setValue('Por campanha');
+  sh.getRange('M2').setFormula('=IFERROR(QUERY({Leads!G2:G},"select Col1, count(Col1) where Col1 is not null group by Col1 order by count(Col1) desc label Col1 \'Campanha\', count(Col1) \'Leads\'",0),{"Campanha","Leads";"Aguardando leads",0})');
+  return sh;
+}
+
+/* ---------- Aba PAINEL ---------- */
+function montarPainel_(ss, dados) {
+  var sh = ss.getSheetByName('Painel') || ss.insertSheet('Painel');
+  sh.clear();
+  sh.getCharts().forEach(function (c) { sh.removeChart(c); });
+  sh.setConditionalFormatRules([]);
+  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).breakApart();
+  if (sh.getMaxColumns() < 14) sh.insertColumnsAfter(sh.getMaxColumns(), 14 - sh.getMaxColumns());
+  if (sh.getMaxRows() < 60) sh.insertRowsAfter(sh.getMaxRows(), 60 - sh.getMaxRows());
+  sh.setHiddenGridlines(true);
+  sh.setTabColor(CORES.vinho3);
+
+  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns())
+    .setFontFamily(FONTE_TEXTO).setFontColor(CORES.texto).setVerticalAlignment('middle').setBackground(CORES.branco);
+  sh.setColumnWidth(1, 28);
+  for (var c = 2; c <= 13; c++) sh.setColumnWidth(c, 96);
+  sh.setColumnWidth(14, 28);
+  sh.setRowHeight(1, 18);
+
+  // faixa de título
+  sh.getRange('B2:M2').merge().setValue('Painel de Leads  ·  Odontoface')
+    .setBackground(CORES.vinho).setFontColor(CORES.branco).setFontFamily(FONTE_TITULO)
+    .setFontSize(24).setFontWeight('bold').setHorizontalAlignment('left');
+  sh.getRange('B3:M3').merge()
+    .setValue('Implantes dentários  ·  Landing page Google Ads  ·  Pituba, Salvador  —  atualiza sozinho a cada cadastro')
+    .setBackground(CORES.vinho2).setFontColor('#BFE0F7').setFontSize(10).setHorizontalAlignment('left');
+  sh.setRowHeight(2, 62); sh.setRowHeight(3, 30); sh.setRowHeight(4, 18);
+  sh.getRange('B2:M3').setBorder(true, true, true, true, false, false, CORES.vinho, SpreadsheetApp.BorderStyle.SOLID);
+  sh.getRange('B2').setNumberFormat('@');
+
+  // cartões de números
+  var cards = [
+    ['B', 'D', 'TOTAL DE LEADS', '=COUNTA(Leads!B2:B)', 'desde o início'],
+    ['E', 'G', 'HOJE', '=COUNTIFS(Leads!A2:A,">="&TODAY(),Leads!A2:A,"<"&(TODAY()+1))', 'cadastros de hoje'],
+    ['H', 'J', 'ÚLTIMOS 7 DIAS', '=COUNTIFS(Leads!A2:A,">="&(TODAY()-6))', 'semana corrida'],
+    ['K', 'M', 'ESTE MÊS', '=COUNTIFS(Leads!A2:A,">="&(EOMONTH(TODAY(),-1)+1))', 'desde o dia 1º']
+  ];
+  sh.setRowHeight(5, 30); sh.setRowHeight(6, 66); sh.setRowHeight(7, 26); sh.setRowHeight(8, 22);
+  cards.forEach(function (k) {
+    var a = k[0], b = k[1];
+    sh.getRange(a + '5:' + b + '5').merge().setValue(k[2]).setBackground(CORES.rose)
+      .setFontColor(CORES.vinho).setFontWeight('bold').setFontSize(9).setHorizontalAlignment('center');
+    sh.getRange(a + '6:' + b + '6').merge().setFormula(k[3]).setNumberFormat('0')
+      .setFontFamily(FONTE_TITULO).setFontSize(36).setFontWeight('bold').setFontColor(CORES.vinho).setHorizontalAlignment('center');
+    sh.getRange(a + '7:' + b + '7').merge().setValue(k[4]).setFontColor(CORES.cinza).setFontSize(9).setHorizontalAlignment('center');
+    sh.getRange(a + '5:' + b + '7').setBorder(true, true, true, true, null, null, CORES.linha, SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+    sh.getRange(a + '5:' + b + '5').setBorder(true, null, null, null, null, null, CORES.vinho, SpreadsheetApp.BorderStyle.SOLID_THICK);
+  });
+
+  // títulos de seção
+  titulo_(sh, 'B9:H9', 'Leads por dia  ·  últimos 14 dias');
+  titulo_(sh, 'J9:M9', 'Status dos atendimentos');
+  sh.setRowHeight(9, 32);
+
+  // gráfico de colunas — leads por dia
+  var gDia = sh.newChart().setChartType(Charts.ChartType.COLUMN)
+    .addRange(dados.getRange('A1:B15')).setNumHeaders(1)
+    .setPosition(10, 2, 0, 6)
+    .setOption('width', 650).setOption('height', 300)
+    .setOption('colors', [CORES.vinho])
+    .setOption('legend', { position: 'none' })
+    .setOption('backgroundColor', CORES.branco)
+    .setOption('bar', { groupWidth: '62%' })
+    .setOption('vAxis', { minValue: 0, format: '0', gridlines: { color: '#E6ECF6' }, textStyle: { color: CORES.cinza } })
+    .setOption('hAxis', { textStyle: { color: CORES.cinza, fontSize: 10 } })
+    .build();
+  sh.insertChart(gDia);
+
+  // tabela de status
+  sh.getRange('J10:L10').merge().setValue('Status').setBackground(CORES.vinho).setFontColor(CORES.branco).setFontWeight('bold').setHorizontalAlignment('left');
+  sh.getRange('M10').setValue('Qtd').setBackground(CORES.vinho).setFontColor(CORES.branco).setFontWeight('bold').setHorizontalAlignment('center');
+  STATUS.forEach(function (s, i) {
+    var lin = 11 + i;
+    sh.getRange('J' + lin + ':L' + lin).merge().setValue('●  ' + s[0]).setBackground(s[1]).setFontColor(s[2]).setFontWeight('bold');
+    sh.getRange('M' + lin).setFormula('=COUNTIF(Leads!E2:E,"' + s[0] + '")').setBackground(s[1]).setFontColor(s[2])
+      .setFontWeight('bold').setHorizontalAlignment('center').setFontSize(12);
+  });
+  sh.setRowHeights(10, 6, 30);
+  sh.getRange('J10:M15').setBorder(true, true, true, true, false, true, CORES.branco, SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+  sh.getRange('J17:L17').merge().setValue('Taxa de agendamento').setFontWeight('bold').setFontColor(CORES.vinho).setBackground(CORES.rose);
+  sh.getRange('M17').setFormula('=IFERROR((COUNTIF(Leads!E2:E,"Agendado")+COUNTIF(Leads!E2:E,"Fechou"))/COUNTA(Leads!B2:B),0)')
+    .setNumberFormat('0%').setFontWeight('bold').setFontSize(13).setFontColor(CORES.vinho).setBackground(CORES.rose).setHorizontalAlignment('center');
+  sh.setRowHeight(17, 34);
+  sh.getRange('J18:M19').merge().setValue('Atualize a coluna "Status" na aba Leads conforme o atendimento avança.')
+    .setFontColor(CORES.cinza).setFontSize(9).setWrap(true).setVerticalAlignment('top');
+
+  // gráficos de origem e campanha
+  titulo_(sh, 'B26:G26', 'De onde vieram  ·  botão da página');
+  titulo_(sh, 'H26:M26', 'Por campanha do Google Ads');
+  sh.setRowHeight(26, 32);
+  var paleta = [CORES.vinho, CORES.vinho3, '#4C8DF6', '#6CB8EA', '#BFE0F7', CORES.escuro, CORES.vinho2, '#2F6BEA', '#9AA2B1', '#C3C9D4'];
+  var gOrigem = sh.newChart().setChartType(Charts.ChartType.PIE)
+    .addRange(dados.getRange('J2:K30')).setNumHeaders(1)
+    .setPosition(27, 2, 0, 6)
+    .setOption('width', 560).setOption('height', 320)
+    .setOption('pieHole', 0.5).setOption('colors', paleta)
+    .setOption('legend', { position: 'right', textStyle: { color: CORES.texto, fontSize: 11 } })
+    .setOption('pieSliceText', 'value')
+    .setOption('backgroundColor', CORES.branco)
+    .build();
+  sh.insertChart(gOrigem);
+  var gCamp = sh.newChart().setChartType(Charts.ChartType.BAR)
+    .addRange(dados.getRange('M2:N30')).setNumHeaders(1)
+    .setPosition(27, 8, 0, 6)
+    .setOption('width', 560).setOption('height', 320)
+    .setOption('colors', [CORES.vinho3])
+    .setOption('legend', { position: 'none' })
+    .setOption('hAxis', { minValue: 0, format: '0', gridlines: { color: '#E6ECF6' } })
+    .setOption('backgroundColor', CORES.branco)
+    .build();
+  sh.insertChart(gCamp);
+
+  // últimos leads
+  titulo_(sh, 'B45:M45', 'Últimos 10 leads');
+  sh.setRowHeight(45, 32);
+  var cab = [['B46:C46', 'Data e hora'], ['D46:G46', 'Nome'], ['H46:J46', 'WhatsApp'], ['K46:M46', 'Status']];
+  cab.forEach(function (c) {
+    sh.getRange(c[0]).merge().setValue(c[1]).setBackground(CORES.vinho).setFontColor(CORES.branco).setFontWeight('bold').setHorizontalAlignment('center');
+  });
+  sh.setRowHeight(46, 30);
+  for (var i = 0; i < 10; i++) {
+    var lin = 47 + i, dl = 2 + i, fundo = i % 2 ? '#F5F8FD' : CORES.branco;
+    sh.getRange('B' + lin + ':C' + lin).merge().setFormula('=IF(Dados!E' + dl + '="","",Dados!E' + dl + ')').setNumberFormat('dd/MM HH:mm').setHorizontalAlignment('center').setBackground(fundo);
+    sh.getRange('D' + lin + ':G' + lin).merge().setFormula('=IF(Dados!F' + dl + '="","",Dados!F' + dl + ')').setFontWeight('bold').setBackground(fundo);
+    sh.getRange('H' + lin + ':J' + lin).merge().setFormula('=IF(Dados!G' + dl + '="","",Dados!G' + dl + ')').setHorizontalAlignment('center').setBackground(fundo);
+    sh.getRange('K' + lin + ':M' + lin).merge().setFormula('=IF(Dados!H' + dl + '="","",Dados!H' + dl + ')').setHorizontalAlignment('center').setFontWeight('bold').setBackground(fundo);
+  }
+  sh.setRowHeights(47, 10, 28);
+  sh.getRange('B46:M56').setBorder(true, true, true, true, null, true, CORES.linha, SpreadsheetApp.BorderStyle.SOLID);
+  var rUlt = sh.getRange('K47:M56');
+  sh.setConditionalFormatRules(STATUS.map(function (s) {
+    return SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo(s[0])
+      .setBackground(s[1]).setFontColor(s[2]).setRanges([rUlt]).build();
+  }));
+
+  sh.getRange('B58:M58').merge().setValue('Odontoface Odontologia e Estética  ·  Os números deste painel são calculados automaticamente a partir da aba Leads.')
+    .setFontColor(CORES.cinza).setFontSize(8).setHorizontalAlignment('center');
+  return sh;
+}
+
+/* ---------- Teste: cria um lead de exemplo ---------- */
+function testarLead() {
+  var e = { postData: { contents: JSON.stringify({
+    nome: 'Lead de teste', whatsapp: '71988887777', origem: 'Teste da planilha',
+    campanha: 'teste', fonte: 'teste', termo: '', gclid: '', pagina: 'teste'
+  }) } };
+  Logger.log(doPost(e).getContent());
+}
+
+/* ---------- auxiliares ---------- */
+function abaLeads_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName('Leads');
+  if (!sh) { configurarPlanilha(); sh = ss.getSheetByName('Leads'); }
+  return sh;
+}
+function titulo_(sh, a1, texto) {
+  sh.getRange(a1).merge().setValue(texto).setFontFamily(FONTE_TITULO).setFontSize(14).setFontWeight('bold')
+    .setFontColor(CORES.vinho).setHorizontalAlignment('left')
+    .setBorder(null, null, true, null, null, null, CORES.vinho3, SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+}
+function limpar_(v) {
+  var s = String(v == null ? '' : v).trim().slice(0, 300);
+  if (/^[=+\-@]/.test(s)) s = "'" + s; // evita fórmulas injetadas
+  return s;
+}
+function formatarFone_(d) {
+  if (d.length === 11) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+  if (d.length === 10) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+  return d;
+}
+function saida_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
