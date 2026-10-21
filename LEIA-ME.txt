@@ -12,7 +12,7 @@ O QUE TEM NESTA PASTA
 
 1) GITHUB PAGES (mesma conta das outras LPs)
    Settings > Pages > Source: "Deploy from a branch" > Branch: main / (root) > Save.
-   Em 1 a 2 minutos a LP fica no ar em: https://douglp7.github.io/ODONTOFACE-LP/
+   Em 1 a 2 minutos a LP fica no ar em: https://douglp7.github.io/clinica-Odontoface/
 
 
 2) MODO PRÉVIA x MODO CAMPANHA (topo do index.html)
