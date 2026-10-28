@@ -1,5 +1,0 @@
-COLOQUE AQUI AS FOTOS DOS ROSTOS DE PACIENTES SORRINDO
-
-Nomes: rosto-01.jpg até rosto-04.jpg
-Formato: em pé (vertical), ideal 900 x 1200.
-O bloco "As pessoas" se ajusta sozinho para 1, 2, 3 ou 4 fotos.

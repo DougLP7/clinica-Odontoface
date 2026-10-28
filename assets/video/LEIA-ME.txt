@@ -1,7 +1,0 @@
-VÍDEOS DA PÁGINA (formato .mp4, gravados em pé)
-
-depoimento.mp4   depoimento do paciente (capa: assets/img/poster-depoimento.jpg)
-dr-geris-1.mp4   vídeo do Dr. Geris (capa: assets/img/poster-dr-geris-1.jpg)
-
-Dica: vídeos de até 20 MB carregam bem no celular.
-Vídeo do iPhone (.mov / HEVC) não toca em todo celular: mande para o Claude converter.

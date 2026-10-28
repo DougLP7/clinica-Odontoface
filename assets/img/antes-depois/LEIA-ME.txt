@@ -1,5 +1,0 @@
-COLOQUE AQUI AS FOTOS COMPARATIVAS DOS SORRISOS
-
-Nomes: ba-01.jpg, ba-02.jpg ... até ba-12.jpg
-Formato: quadrada (ideal 1080 x 1080), ANTES em cima e DEPOIS embaixo, só a boca/sorriso.
-Fotos do rosto inteiro vão na pasta assets/img/rostos.

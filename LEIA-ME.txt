@@ -1,13 +1,13 @@
-LP ODONTOFACE — IMPLANTES DENTÁRIOS
-===================================
+LP ODONTOFACE — IMPLANTES DENTÁRIOS (versão final)
+=================================================
 
 O QUE TEM NESTA PASTA
 - index.html ................. a página inteira (design, textos, pop-up, planilha e conversão)
 - assets/img ................. Dr. Geris, logo (branco e azul), imagens 3D dos tratamentos, capas e ícones
-- assets/img/antes-depois .... fotos comparativas só dos SORRISOS (ba-01.jpg ... ba-12.jpg)
-- assets/img/rostos .......... fotos dos ROSTOS de pacientes sorrindo (rosto-01.jpg ... rosto-04.jpg)
-- assets/img/clinica ......... fotos da clínica (clinica-01.jpg ... clinica-09.jpg)
-- assets/video ............... vídeos (depoimento.mp4 e dr-geris-1.mp4)
+- assets/img/sorrisos ........ fotos dos sorrisos (sorriso-01 e 02 são os comparativos e aparecem primeiro)
+- assets/img/rostos .......... fotos de pacientes sorrindo (bloco "As pessoas")
+- assets/img/clinica ......... fotos da clínica (a clinica-01 aparece grande)
+- assets/video ............... depoimento.mp4 (paciente) e dr-geris-1.mp4 (Dr. Geris)
 - apps-script-planilha.txt ... código da planilha de leads (Google Sheets)
 
 
@@ -16,32 +16,16 @@ O QUE TEM NESTA PASTA
    Em 1 a 2 minutos a LP fica no ar em: https://douglp7.github.io/clinica-Odontoface/
 
 
-2) MODO PRÉVIA x MODO CAMPANHA (topo do index.html)
-   var MODO_PREVIA = true;   -> mostra os espaços reservados (fotos, vídeos, CRO, depoimentos)
-                                com o nome do arquivo que falta. Use enquanto monta a página.
-   var MODO_PREVIA = false;  -> esconde sozinho tudo o que ainda não foi enviado.
-                                Use quando for ligar o tráfego pago.
-   Se uma seção inteira estiver sem material (ex.: nenhum antes e depois), ela some da página.
+2) ADICIONAR MAIS FOTOS DEPOIS (opcional)
+   A página já está completa. Para incluir mais material, mande para o Claude, que
+   adiciona na pasta certa e publica. Formatos que funcionam melhor:
+   - Sorrisos: foto quadrada (~1000 x 1000)
+   - Pessoas: foto em pé (~900 x 1200)
+   - Clínica: foto em pé (~1080 x 1440)
+   - Vídeos: em pé, .mp4, até ~20 MB (vídeo do iPhone .mov o Claude converte)
 
 
-3) COMO ADICIONAR FOTOS E VÍDEOS (sem mexer no código)
-   Basta subir o arquivo com o nome certo na pasta certa. A página encontra sozinha.
-   - Sorrisos (bloco "Os sorrisos"): assets/img/antes-depois/ba-01.jpg até ba-12.jpg
-     (foto quadrada, ANTES em cima e DEPOIS embaixo, ideal 1080 x 1080)
-   - Rostos (bloco "As pessoas"): assets/img/rostos/rosto-01.jpg até rosto-04.jpg
-     (paciente sorrindo, foto em pé, ideal 900 x 1200). O bloco se ajusta sozinho
-     para 1, 2, 3 ou 4 fotos.
-   - Clínica: assets/img/clinica/clinica-01.jpg até clinica-09.jpg (em pé, ideal 1080 x 1440)
-       01 Recepção (aparece grande) · 02 Sala de avaliação · 03 Sala de espera
-       04 Consultório · 05 Atendimento · 06 Fachada · 07 Equipe · 08 Tecnologia · 09 Estrutura
-       Com 5 ou 9 fotos o mosaico fica completo, sem buracos.
-   - Vídeos (em pé, .mp4, até ~20 MB):
-       assets/video/depoimento.mp4   depoimento do paciente (capa: assets/img/poster-depoimento.jpg)
-       assets/video/dr-geris-1.mp4   vídeo do Dr. Geris (capa: assets/img/poster-dr-geris-1.jpg)
-     Vídeo gravado no iPhone (.mov/HEVC) não toca em todo celular: mande para o Claude converter.
-
-
-4) PLANILHA DE LEADS (Google Sheets + Apps Script)
+3) PLANILHA DE LEADS (Google Sheets + Apps Script)
    a. Crie uma planilha nova e vazia no Google Sheets.
    b. Extensões > Apps Script > apague o conteúdo > cole TODO o apps-script-planilha.txt > salvar.
    c. Escolha a função "configurarPlanilha" e clique em Executar (autorize na primeira vez).
@@ -51,13 +35,13 @@ O QUE TEM NESTA PASTA
    f. (Opcional) Rode "testarLead" para ver um lead de teste aparecer; depois apague a linha.
 
 
-5) CONFIGURAR O index.html (bloco CONFIG, perto do final do arquivo)
+4) CONFIGURAR O index.html (bloco CONFIG, perto do final do arquivo)
    - WHATSAPP_NUMBER: já configurado com 55 71 2101-2834
-   - APPS_SCRIPT_URL: a URL /exec do passo 4
+   - APPS_SCRIPT_URL: a URL /exec do passo 3
    - GTM_ID: quando o gestor de tráfego enviar, ex.: "GTM-ABC1234" (o GTM carrega sozinho)
 
 
-6) CONVERSÃO NO GOOGLE ADS (para o gestor de tráfego)
+5) CONVERSÃO NO GOOGLE ADS (para o gestor de tráfego)
    - Evento do dataLayer: lead_whatsapp
    - Só dispara quando a pessoa preenche nome + WhatsApp válidos, envia, e é
      redirecionada para o WhatsApp da clínica. O redirecionamento acontece logo
@@ -67,11 +51,3 @@ O QUE TEM NESTA PASTA
    - No GTM: Acionador > Evento personalizado > nome do evento: lead_whatsapp
      e ligar esse acionador à tag de conversão do Google Ads.
    - A planilha também recebe utm_campaign, utm_source/medium, utm_term e gclid.
-
-
-7) PONTOS PARA PREENCHER (procure por "EDITAR" ou "vazio" no index.html)
-   - Currículo do Dr. Geris (seção do doutor): formação, especializações e experiência.
-     Troque o texto "Inserir..." e apague a palavra "todo" do class de cada item.
-     Enquanto não forem preenchidos, esses itens ficam escondidos no modo campanha.
-   - Depoimentos escritos: troque o texto e o nome de cada card e apague a palavra
-     "vazio" do class="review vazio".
