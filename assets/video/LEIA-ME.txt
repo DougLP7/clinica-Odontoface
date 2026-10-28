@@ -1,8 +1,7 @@
-COLOQUE AQUI OS VÍDEOS (formato .mp4, gravados em pé)
+VÍDEOS DA PÁGINA (formato .mp4, gravados em pé)
 
-depoimento.mp4      vídeo do depoimento (a foto de capa já está na página)
-dra-leticya-1.mp4   "Por que repor o dente perdido?"
-dra-leticya-2.mp4   "Como funciona o implante?"
+depoimento.mp4   depoimento do paciente (capa: assets/img/poster-depoimento.jpg)
+dr-geris-1.mp4   vídeo do Dr. Geris (capa: assets/img/poster-dr-geris-1.jpg)
 
-Capas opcionais dos vídeos da doutora: assets/img/poster-dra-1.jpg e poster-dra-2.jpg
 Dica: vídeos de até 20 MB carregam bem no celular.
+Vídeo do iPhone (.mov / HEVC) não toca em todo celular: mande para o Claude converter.

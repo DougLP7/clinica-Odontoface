@@ -3,10 +3,11 @@ LP ODONTOFACE — IMPLANTES DENTÁRIOS
 
 O QUE TEM NESTA PASTA
 - index.html ................. a página inteira (design, textos, pop-up, planilha e conversão)
-- assets/img ................. Dra. Letícya, logo, imagens 3D dos tratamentos, capa e ícones
-- assets/img/antes-depois .... onde entram as fotos de antes e depois (ba-01.jpg ... ba-12.jpg)
-- assets/img/clinica ......... onde entram as fotos da clínica (clinica-01.jpg ... clinica-08.jpg)
-- assets/video ............... onde entram os vídeos (depoimento.mp4, dra-leticya-1.mp4, dra-leticya-2.mp4)
+- assets/img ................. Dr. Geris, logo (branco e azul), imagens 3D dos tratamentos, capas e ícones
+- assets/img/antes-depois .... fotos comparativas só dos SORRISOS (ba-01.jpg ... ba-12.jpg)
+- assets/img/rostos .......... fotos dos ROSTOS de pacientes sorrindo (rosto-01.jpg ... rosto-04.jpg)
+- assets/img/clinica ......... fotos da clínica (clinica-01.jpg ... clinica-09.jpg)
+- assets/video ............... vídeos (depoimento.mp4 e dr-geris-1.mp4)
 - apps-script-planilha.txt ... código da planilha de leads (Google Sheets)
 
 
@@ -25,15 +26,19 @@ O QUE TEM NESTA PASTA
 
 3) COMO ADICIONAR FOTOS E VÍDEOS (sem mexer no código)
    Basta subir o arquivo com o nome certo na pasta certa. A página encontra sozinha.
-   - Antes e depois: assets/img/antes-depois/ba-01.jpg até ba-12.jpg
-     (antes à esquerda, depois à direita, ideal 1200 x 900)
-   - Clínica: assets/img/clinica/clinica-01.jpg até clinica-08.jpg (em pé, ideal 900 x 1200)
-       01 Recepção · 02 Consultório · 03 Sala de espera · 04 Fachada
-       05 Equipe · 06 Atendimento · 07 Estrutura · 08 Tecnologia
+   - Sorrisos (bloco "Os sorrisos"): assets/img/antes-depois/ba-01.jpg até ba-12.jpg
+     (foto quadrada, ANTES em cima e DEPOIS embaixo, ideal 1080 x 1080)
+   - Rostos (bloco "As pessoas"): assets/img/rostos/rosto-01.jpg até rosto-04.jpg
+     (paciente sorrindo, foto em pé, ideal 900 x 1200). O bloco se ajusta sozinho
+     para 1, 2, 3 ou 4 fotos.
+   - Clínica: assets/img/clinica/clinica-01.jpg até clinica-09.jpg (em pé, ideal 1080 x 1440)
+       01 Recepção (aparece grande) · 02 Sala de avaliação · 03 Sala de espera
+       04 Consultório · 05 Atendimento · 06 Fachada · 07 Equipe · 08 Tecnologia · 09 Estrutura
+       Com 5 ou 9 fotos o mosaico fica completo, sem buracos.
    - Vídeos (em pé, .mp4, até ~20 MB):
-       assets/video/depoimento.mp4      (a foto de capa do depoimento já está na página)
-       assets/video/dra-leticya-1.mp4   "Por que repor o dente perdido?"
-       assets/video/dra-leticya-2.mp4   "Como funciona o implante?"
+       assets/video/depoimento.mp4   depoimento do paciente (capa: assets/img/poster-depoimento.jpg)
+       assets/video/dr-geris-1.mp4   vídeo do Dr. Geris (capa: assets/img/poster-dr-geris-1.jpg)
+     Vídeo gravado no iPhone (.mov/HEVC) não toca em todo celular: mande para o Claude converter.
 
 
 4) PLANILHA DE LEADS (Google Sheets + Apps Script)
@@ -65,7 +70,8 @@ O QUE TEM NESTA PASTA
 
 
 7) PONTOS PARA PREENCHER (procure por "EDITAR" ou "vazio" no index.html)
-   - CRO da Dra. Letícya: troque "CRO-BA 00000" (2 lugares: seção da doutora e rodapé)
-     e apague a palavra "todo" do class.
+   - Currículo do Dr. Geris (seção do doutor): formação, especializações e experiência.
+     Troque o texto "Inserir..." e apague a palavra "todo" do class de cada item.
+     Enquanto não forem preenchidos, esses itens ficam escondidos no modo campanha.
    - Depoimentos escritos: troque o texto e o nome de cada card e apague a palavra
      "vazio" do class="review vazio".

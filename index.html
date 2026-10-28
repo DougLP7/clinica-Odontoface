@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/img/dra-leticya-recorte.webp" type="image/webp">
+<link rel="preload" as="image" href="assets/img/dr-geris-recorte.webp" type="image/webp">
 <script>
   /* MODO PRÉVIA
      true  = mostra os espaços reservados para fotos, vídeos e textos que ainda faltam (para montar a página)
@@ -164,7 +164,7 @@ html:not(.previa) .todo{display:none!important}
 .hero-checks span{display:inline-flex;align-items:center;gap:9px}
 .hero-checks svg{width:22px;height:22px;fill:var(--ceu)}
 
-/* Capa: Dra. Letícya + prótese protocolo mesclada ao fundo */
+/* Capa: Dr. Geris + prótese protocolo mesclada ao fundo */
 .hero-bg-proto{position:absolute;z-index:-1;left:64%;top:50%;width:min(1500px,120vw);transform:translate(-50%,-50%) rotate(-8deg);opacity:.12;pointer-events:none;
   -webkit-mask-image:radial-gradient(closest-side,#000 55%,transparent 100%);mask-image:radial-gradient(closest-side,#000 55%,transparent 100%)}
 .hero-bg-proto img{width:100%;height:auto;filter:blur(.6px)}
@@ -608,6 +608,113 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
 @media (max-width:380px){
   .hero h1{font-size:1.95rem}
 }
+
+/* =====================================================================
+   AJUSTES — mais branco, Dr. Geris, sorrisos de um lado e rostos do outro
+   ===================================================================== */
+:root{--nevoa:#F6F8FC}
+
+/* Cabeçalho branco com o logo azul */
+.topbar{background:rgba(255,255,255,.97);box-shadow:0 12px 30px -24px rgba(11,20,70,.55)}
+.topbar::after{height:3px;background:linear-gradient(90deg,var(--marinho) 0%,var(--royal) 50%,var(--ceu) 100%)}
+.brand img{height:48px}
+
+/* Faixa de benefícios em branco */
+.strip{background:#fff;color:var(--marinho);border-top:0;border-bottom:1px solid var(--linha);box-shadow:0 22px 40px -36px rgba(11,20,70,.55)}
+.strip svg{fill:var(--azul)}
+
+/* Fundos claros (branco e quase-branco alternados) */
+.dor{background:#fff}
+.trat{background:var(--nevoa)}
+.clinic{background:var(--nevoa)}
+.steps{background:#fff}
+.step .n{box-shadow:0 0 0 7px var(--gelo)}
+.faq{background:var(--nevoa)}
+.faq details{background:#fff}
+.review{background:var(--nevoa)}
+
+/* ---------- Resultados: sorrisos x rostos ---------- */
+.results{background:#fff;color:var(--texto)}
+.results .disclaimer{color:var(--muted)}
+.res-grid{display:grid;grid-template-columns:1.32fr 1fr;gap:24px;align-items:stretch}
+.res-panel{position:relative;border-radius:28px;padding:24px;display:flex;flex-direction:column;min-width:0}
+.res-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.res-head h3{font-size:1.5rem}
+.res-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:.76rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.res-pill i{width:7px;height:7px;border-radius:50%;display:block}
+.res-smiles{color:#fff;background:radial-gradient(520px 320px at 100% 0%,rgba(47,107,234,.38),transparent 70%),linear-gradient(160deg,#0D1852 0%,#070D30 100%);box-shadow:var(--sombra)}
+.res-smiles .res-head h3{color:#fff}
+.res-smiles .res-pill{background:rgba(255,255,255,.1);color:var(--ceu-claro);border:1px solid rgba(255,255,255,.2)}
+.res-smiles .res-pill i{background:var(--ceu)}
+.res-smiles .track{grid-auto-columns:calc((100% - 16px)/2);gap:16px;padding:2px 2px 18px}
+.res-smiles .rcard{border-color:rgba(255,255,255,.16)}
+.res-smiles .rcard .ba{aspect-ratio:1/1}
+.res-smiles .rcard img{object-fit:cover}
+.res-smiles .rcard figcaption{font-size:.92rem;padding:11px 14px}
+.ba.stack .t-depois{left:14px;top:calc(50% + 12px)}
+.res-faces{background:#fff;border:1px solid var(--linha);box-shadow:0 30px 60px -44px rgba(11,20,70,.6)}
+.res-faces .res-pill{background:var(--gelo);color:var(--royal)}
+.res-faces .res-pill i{background:var(--royal)}
+.faces{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:12px;min-height:300px}
+.faces figure{position:relative;margin:0;border-radius:20px;overflow:hidden;background:var(--gelo);min-height:0}
+.faces img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 22%;transition:transform .6s ease}
+.faces figure:hover img{transform:scale(1.04)}
+.faces figcaption{position:absolute;left:12px;bottom:12px;z-index:3;background:rgba(255,255,255,.95);color:var(--marinho);font-weight:800;font-size:.86rem;padding:6px 12px;border-radius:999px}
+.faces .vazio figcaption{display:none}
+.faces[data-vis="1"] figure:not(.vazio){grid-column:1/-1;grid-row:span 2}
+.faces[data-vis="3"] figure:not(.vazio):first-child{grid-row:span 2}
+html:not(.previa) .res-grid:has(> .grupo-vazio){grid-template-columns:1fr}
+
+/* ---------- Doutor ---------- */
+.doc-photo img{object-position:50% 16%}
+.doc blockquote{font-family:var(--titulo);font-style:italic;font-weight:800;font-size:1.3rem;color:#fff;border-left:4px solid var(--ceu);padding:4px 0 4px 18px;margin:0 0 24px;line-height:1.35;letter-spacing:-.01em}
+.doc blockquote cite{display:block;font-family:var(--sans);font-style:normal;font-weight:700;font-size:.95rem;color:var(--ceu-claro);margin-top:6px;letter-spacing:0}
+.final-dra img{object-position:50% 50%}
+
+/* ---------- Vídeo do doutor (texto à esquerda, vídeo à direita) ---------- */
+.vid .wrap{grid-template-columns:1.1fr .9fr}
+.vid .vframe{order:2}
+.vid .vframe::before{inset:18px 18px -18px -18px;background:linear-gradient(200deg,var(--ceu) 0%,var(--azul) 45%,var(--marinho) 100%)}
+
+/* ---------- Clínica em mosaico (primeira foto grande) ---------- */
+.mosaic{grid-auto-rows:250px;gap:16px;grid-auto-flow:dense;padding-bottom:0}
+.mosaic figure{aspect-ratio:auto;height:100%}
+.mosaic figure:nth-child(even){margin-top:0}
+.mosaic figure:first-child{grid-column:span 2;grid-row:span 2}
+.mosaic img{object-position:50% 55%}
+.mapa{background:#fff}
+
+@media (max-width:1020px){
+  .res-grid{grid-template-columns:1fr}
+  .vid .wrap{grid-template-columns:1fr}
+  .vid .vframe{order:0}
+}
+@media (max-width:760px){
+  .brand img{height:38px}
+  .res-panel{padding:16px;border-radius:22px}
+  .res-head{margin-bottom:14px}
+  .res-head h3{font-size:1.25rem}
+  .res-pill{font-size:.64rem;padding:6px 10px;letter-spacing:.1em}
+  .res-smiles .track{grid-auto-columns:86%;gap:12px}
+  .ba.stack .t-depois{left:10px;top:calc(50% + 10px)}
+  .faces{min-height:400px;gap:10px}
+  .faces figcaption{font-size:.76rem;padding:5px 10px;left:8px;bottom:8px}
+  .doc blockquote{font-size:1.12rem}
+  .vid .vframe::before{inset:12px 10px -12px -10px}
+  .mosaic{grid-template-columns:1fr 1fr;grid-auto-rows:170px;gap:10px}
+  .mosaic figure:nth-child(even){margin-top:0}
+}
+
+/* Capa no celular: doutor centralizado, transição suave para o texto */
+@media (max-width:1020px){
+  .hv-dra,.hv-halo,.hv-ring{left:50%}
+  .hero-fade{display:none}
+  .hv-dra img{-webkit-mask-image:linear-gradient(180deg,#000 58%,rgba(0,0,0,.55) 78%,transparent 97%);mask-image:linear-gradient(180deg,#000 58%,rgba(0,0,0,.55) 78%,transparent 97%)}
+  .hv-proto{-webkit-mask-image:linear-gradient(180deg,#000 50%,transparent 95%);mask-image:linear-gradient(180deg,#000 50%,transparent 95%)}
+}
+@media (max-width:760px){
+  .hv-proto-card{top:auto;bottom:150px;left:12px}
+}
 </style>
 </head>
 <body>
@@ -640,7 +747,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
 <header class="topbar">
   <div class="wrap">
     <a class="brand" href="#topo" aria-label="Odontoface — início">
-      <img src="assets/img/logo-odontoface.png" alt="Odontoface Odontologia e Estética" width="1317" height="302">
+      <img src="assets/img/logo-odontoface-azul.png" alt="Odontoface Odontologia e Estética" width="1317" height="302">
     </a>
     <button class="btn btn-cta" data-lead="Cabeçalho" type="button">
       <svg><use href="#i-wa"/></svg><span>Agendar avaliação</span>
@@ -665,7 +772,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
         </button>
         <div class="hero-checks">
           <span><svg><use href="#i-check"/></svg>Atendimento pelo WhatsApp</span>
-          <span><svg><use href="#i-check"/></svg>Avaliação com a Dra. Letícya</span>
+          <span><svg><use href="#i-check"/></svg>Avaliação com o Dr. Geris</span>
         </div>
       </div>
     </div>
@@ -675,14 +782,14 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
       <div class="hv-ring r1"></div>
       <div class="hv-ring r2"></div>
       <picture class="hv-proto hv-anim" style="--d:.35s"><source srcset="assets/img/protocolo-duotone.webp" type="image/webp"><img src="assets/img/protocolo-duotone.png" alt="" width="1124" height="888"></picture>
-      <picture class="hv-dra hv-anim" style="--d:.15s"><source srcset="assets/img/dra-leticya-recorte.webp" type="image/webp"><img src="assets/img/dra-leticya-recorte.png" alt="Dra. Letícya Santos Machado, cirurgiã-dentista da Odontoface" width="1004" height="1576" fetchpriority="high"></picture>
+      <picture class="hv-dra hv-anim" style="--d:.15s"><source srcset="assets/img/dr-geris-recorte.webp" type="image/webp"><img src="assets/img/dr-geris-recorte.png" alt="Dr. Geris Cavalcante, cirurgião-dentista da Odontoface" width="731" height="1118" fetchpriority="high"></picture>
       <div class="hv-card hv-proto-card hv-anim" style="--d:.55s">
         <span class="thumb flutua"><picture><source srcset="assets/img/comp-protocolo-hd.webp" type="image/webp"><img src="assets/img/comp-protocolo-hd.png" alt="" width="592" height="578"></picture></span>
         <div><b>Dentes fixos</b><span>sobre implantes</span></div>
       </div>
       <div class="hv-card hv-name hv-anim" style="--d:.75s">
         <span class="ico"><svg><use href="#i-user"/></svg></span>
-        <div><b>Dra. Letícya Santos Machado</b><span>Cirurgiã-dentista · Odontoface</span></div>
+        <div><b>Dr. Geris Cavalcante</b><span>Cirurgião-dentista · CRO-BA 13730</span></div>
       </div>
     </div>
   </div>
@@ -730,53 +837,81 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
   </div>
 </section>
 
-<!-- ================= ANTES E DEPOIS =================
-     FOTOS: envie para a pasta assets/img/antes-depois/ com os nomes ba-01.jpg, ba-02.jpg ... ba-12.jpg
-     (antes à esquerda, depois à direita — ideal 1200 x 900). O que não existir fica escondido sozinho. -->
-<section class="results sec dark" id="antes-e-depois" data-grupo>
+<!-- ================= RESULTADOS: SORRISOS DE UM LADO, ROSTOS DO OUTRO =================
+     SORRISOS (antes em cima, depois embaixo, foto quadrada ~1080 x 1080):
+       assets/img/antes-depois/ba-01.jpg ... ba-12.jpg
+     ROSTOS de pacientes sorrindo (em pé, ~900 x 1200):
+       assets/img/rostos/rosto-01.jpg ... rosto-04.jpg
+     O que não existir fica escondido sozinho (com MODO_PREVIA = false). -->
+<section class="results sec" id="antes-e-depois" data-grupo>
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">Antes e depois</span>
       <h2>Sorrisos que voltaram <em>a aparecer.</em></h2>
-      <p>Arraste para o lado e toque na foto para ampliar.</p>
+      <p>Resultados reais de pacientes da Odontoface. Toque nas fotos para ampliar.</p>
     </div>
-    <div class="carousel" data-carousel>
-      <div class="track">
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-01.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 01</b><small>antes-depois/ba-01.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-02.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 02</b><small>antes-depois/ba-02.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-03.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 03</b><small>antes-depois/ba-03.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-04.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 04</b><small>antes-depois/ba-04.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-05.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 05</b><small>antes-depois/ba-05.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-06.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 06</b><small>antes-depois/ba-06.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-07.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 07</b><small>antes-depois/ba-07.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-08.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 08</b><small>antes-depois/ba-08.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-09.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 09</b><small>antes-depois/ba-09.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-10.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 10</b><small>antes-depois/ba-10.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-11.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 11</b><small>antes-depois/ba-11.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
-        <figure class="rcard" data-slot><div class="ba"><img src="assets/img/antes-depois/ba-12.jpg" alt="Antes e depois de paciente da Odontoface" width="1200" height="900" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Antes e depois 12</b><small>antes-depois/ba-12.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+
+    <div class="res-grid">
+      <!-- Sorrisos -->
+      <div class="res-panel res-smiles" data-grupo>
+        <div class="res-head">
+          <h3>Os sorrisos</h3>
+          <span class="res-pill"><i></i>Antes e depois</span>
+        </div>
+        <div class="carousel" data-carousel>
+          <div class="track">
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-01.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 01</b><small>antes-depois/ba-01.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-02.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 02</b><small>antes-depois/ba-02.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-03.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 03</b><small>antes-depois/ba-03.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-04.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 04</b><small>antes-depois/ba-04.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-05.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 05</b><small>antes-depois/ba-05.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-06.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 06</b><small>antes-depois/ba-06.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-07.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 07</b><small>antes-depois/ba-07.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-08.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 08</b><small>antes-depois/ba-08.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-09.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 09</b><small>antes-depois/ba-09.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-10.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 10</b><small>antes-depois/ba-10.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-11.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 11</b><small>antes-depois/ba-11.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+            <figure class="rcard" data-slot><div class="ba stack"><img src="assets/img/antes-depois/ba-12.jpg" alt="Antes e depois do sorriso de paciente da Odontoface" width="1080" height="1080" loading="lazy"><span class="tag t-antes">Antes</span><span class="tag t-depois">Depois</span><span class="ph"><svg><use href="#i-camera"/></svg><b>Sorriso 12</b><small>antes-depois/ba-12.jpg</small></span></div><figcaption>Paciente real da Odontoface</figcaption></figure>
+          </div>
+          <div class="car-nav">
+            <button class="car-btn" data-prev type="button" aria-label="Anterior"><svg><use href="#i-arrow-l"/></svg></button>
+            <div class="dots" aria-hidden="true"></div>
+            <button class="car-btn" data-next type="button" aria-label="Próximo"><svg><use href="#i-arrow-r"/></svg></button>
+          </div>
+        </div>
       </div>
-      <div class="car-nav">
-        <button class="car-btn" data-prev type="button" aria-label="Anterior"><svg><use href="#i-arrow-l"/></svg></button>
-        <div class="dots" aria-hidden="true"></div>
-        <button class="car-btn" data-next type="button" aria-label="Próximo"><svg><use href="#i-arrow-r"/></svg></button>
+
+      <!-- Rostos -->
+      <div class="res-panel res-faces" data-grupo>
+        <div class="res-head">
+          <h3>As pessoas</h3>
+          <span class="res-pill"><i></i>Pacientes reais</span>
+        </div>
+        <div class="faces" data-conta>
+          <figure data-slot><img src="assets/img/rostos/rosto-01.jpg" alt="Paciente da Odontoface sorrindo com os dentes novos" width="900" height="1200" loading="lazy"><figcaption>Sorrindo de novo</figcaption><span class="ph claro"><svg><use href="#i-user"/></svg><b>Rosto 01</b><small>rostos/rosto-01.jpg</small></span></figure>
+          <figure data-slot><img src="assets/img/rostos/rosto-02.jpg" alt="Paciente da Odontoface sorrindo" width="900" height="1200" loading="lazy"><figcaption>Sorrindo de novo</figcaption><span class="ph claro"><svg><use href="#i-user"/></svg><b>Rosto 02</b><small>rostos/rosto-02.jpg</small></span></figure>
+          <figure data-slot><img src="assets/img/rostos/rosto-03.jpg" alt="Paciente da Odontoface sorrindo" width="900" height="1200" loading="lazy"><figcaption>Sorrindo de novo</figcaption><span class="ph claro"><svg><use href="#i-user"/></svg><b>Rosto 03</b><small>rostos/rosto-03.jpg</small></span></figure>
+          <figure data-slot><img src="assets/img/rostos/rosto-04.jpg" alt="Paciente da Odontoface sorrindo" width="900" height="1200" loading="lazy"><figcaption>Sorrindo de novo</figcaption><span class="ph claro"><svg><use href="#i-user"/></svg><b>Rosto 04</b><small>rostos/rosto-04.jpg</small></span></figure>
+        </div>
       </div>
     </div>
+
     <p class="disclaimer">Pacientes reais, imagens publicadas com autorização. Resultados variam de pessoa para pessoa.</p>
     <div class="cta-row">
-      <button class="btn btn-light btn-xl btn-shine" data-lead="Antes e depois" type="button"><svg><use href="#i-wa"/></svg>Quero mudar meu sorriso</button>
+      <button class="btn btn-cta btn-xl btn-shine" data-lead="Antes e depois" type="button"><svg><use href="#i-wa"/></svg>Quero mudar meu sorriso</button>
     </div>
   </div>
 </section>
 
-<!-- ================= DEPOIMENTOS =================
-     VÍDEO: envie o depoimento como assets/video/depoimento.mp4 (vertical). A foto de capa já está no lugar.
+<!-- ================= DEPOIMENTO =================
+     VÍDEO: assets/video/depoimento.mp4 (capa: assets/img/poster-depoimento.jpg)
      TEXTOS: troque o texto de cada card e apague a palavra "vazio" do class="review vazio". -->
 <section class="testi sec wm wm-l" id="depoimentos">
   <div class="wrap">
     <div class="vframe">
       <div class="vbox" data-video>
         <span class="vlabel"><i></i>Depoimento real</span>
-        <img class="poster" src="assets/img/depoimento-paciente.jpg" alt="Paciente da Odontoface sorrindo com os dentes novos" width="900" height="1200" loading="lazy">
+        <img class="poster" src="assets/img/poster-depoimento.jpg" alt="Paciente da Odontoface dando depoimento sobre o tratamento de implante" width="576" height="1024" loading="lazy">
         <video src="assets/video/depoimento.mp4" preload="none" playsinline></video>
         <button class="vplay" type="button" aria-label="Assistir ao depoimento">
           <span class="pbtn"><svg><use href="#i-play"/></svg></span>
@@ -786,9 +921,9 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
       </div>
     </div>
     <div class="text">
-      <span class="eyebrow">Quem fez, aprova</span>
-      <h2>Um sorriso novo <em>muda tudo.</em></h2>
-      <p class="intro">Aperte o play e ouça quem já passou pela Odontoface e voltou a sorrir sem medo.</p>
+      <span class="eyebrow">Quem está fazendo, aprova</span>
+      <h2>“Venha, faça seu implante <em>sem medo.</em>”</h2>
+      <p class="intro">Ele está na reta final do tratamento de implante na Odontoface. Aperte o play e ouça como está sendo a experiência.</p>
       <div class="cta-row">
         <button class="btn btn-cta btn-xl btn-shine" data-lead="Depoimento" type="button"><svg><use href="#i-wa"/></svg>Quero sorrir assim</button>
       </div>
@@ -821,7 +956,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
     <div class="sec-head">
       <span class="eyebrow">Soluções em implantes</span>
       <h2>Perdeu um, vários ou todos? <em>Tem solução.</em></h2>
-      <p>Na avaliação, a Dra. Letícya indica a melhor opção para o seu caso.</p>
+      <p>Na avaliação, o Dr. Geris indica a melhor opção para o seu caso.</p>
     </div>
     <div class="t-grid">
       <article class="tcard">
@@ -876,80 +1011,70 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
   </div>
 </section>
 
-<!-- ================= DOUTORA ================= -->
-<section class="doc sec dark" id="dra-leticya">
+<!-- ================= DOUTOR ================= -->
+<section class="doc sec dark" id="dr-geris">
   <div class="wrap">
     <div class="doc-photo">
-      <img src="assets/img/dra-leticya.jpg" alt="Dra. Letícya Santos Machado, cirurgiã-dentista da Odontoface" width="900" height="1349" loading="lazy">
-      <span class="selo"><img src="assets/img/logo-icone.png" alt="" width="355" height="290"><span>Avaliadora<br>Odontoface</span></span>
+      <img src="assets/img/dr-geris.jpg" alt="Dr. Gerisnaldo Cavalcante Júnior, o Dr. Geris, cirurgião-dentista da Odontoface" width="854" height="1280" loading="lazy">
+      <span class="selo"><img src="assets/img/logo-icone.png" alt="" width="355" height="290"><span>Cirurgião-dentista<br>Odontoface</span></span>
     </div>
     <div class="doc-text">
-      <span class="eyebrow">Quem vai te avaliar</span>
-      <h2>Dra. Letícya Santos Machado</h2>
-      <p class="role">Cirurgiã-dentista · Avaliadora e clínica geral na Odontoface</p>
+      <span class="eyebrow">Quem cuida do seu sorriso</span>
+      <h2>Dr. Geris Cavalcante</h2>
+      <p class="role">Gerisnaldo Cavalcante Júnior · Cirurgião-dentista da Odontoface</p>
 
-      <!-- EDITAR: coloque o número do CRO e apague a palavra "todo" do class="cro-box todo" -->
-      <div class="cro-box todo" id="cro">
+      <div class="cro-box" id="cro">
         <svg><use href="#i-shield"/></svg>
-        <div><small>Registro profissional</small><b>CRO-BA 00000<span class="todo-badge">inserir</span></b></div>
+        <div><small>Registro profissional</small><b>CRO-BA 13730</b></div>
       </div>
 
-      <p class="bio">Na sua avaliação, ela examina com calma, explica cada opção com clareza e mostra o caminho certo para você voltar a sorrir.</p>
+      <p class="bio">Na sua avaliação, o Dr. Geris examina com calma, explica cada opção com clareza e mostra o caminho certo para você voltar a sorrir.</p>
 
+      <blockquote>“Isso não é milagre. Isso é ciência, com alta tecnologia.”<cite>Dr. Geris, no vídeo abaixo</cite></blockquote>
+
+      <!-- EDITAR: currículo do Dr. Geris. Troque o texto e apague a palavra "todo" do class de cada item preenchido. -->
       <ul class="cv">
-        <li><svg><use href="#i-book"/></svg><div><b>Formação</b><span>Cirurgiã-dentista desde 2024</span></div></li>
-        <li><svg><use href="#i-award"/></svg><div><b>Especialização</b><span>Cursando Implantodontia e Periodontia</span></div></li>
-        <li><svg><use href="#i-tooth"/></svg><div><b>Na Odontoface</b><span>Avaliadora e clínica geral desde janeiro de 2025</span></div></li>
-        <li><svg><use href="#i-building"/></svg><div><b>Experiência na rede</b><span>Já atendeu nas 6 unidades da Odontoface</span></div></li>
+        <li class="todo"><svg><use href="#i-book"/></svg><div><b>Formação</b><span>Inserir graduação (instituição e ano)<span class="todo-badge">inserir</span></span></div></li>
+        <li class="todo"><svg><use href="#i-award"/></svg><div><b>Especializações</b><span>Inserir especializações e títulos<span class="todo-badge">inserir</span></span></div></li>
+        <li class="todo"><svg><use href="#i-tooth"/></svg><div><b>Experiência</b><span>Inserir anos de atuação com implantes<span class="todo-badge">inserir</span></span></div></li>
+        <li><svg><use href="#i-building"/></svg><div><b>Rede Odontoface</b><span>6 unidades de odontologia e estética</span></div></li>
       </ul>
 
-      <button class="btn btn-light btn-xl btn-shine" data-lead="Sobre a doutora" type="button"><svg><use href="#i-wa"/></svg>Agendar com a Dra. Letícya</button>
+      <button class="btn btn-light btn-xl btn-shine" data-lead="Sobre o doutor" type="button"><svg><use href="#i-wa"/></svg>Agendar com o Dr. Geris</button>
     </div>
   </div>
 </section>
 
-<!-- ================= VÍDEOS DA DOUTORA =================
-     VÍDEOS: envie como assets/video/dra-leticya-1.mp4 e dra-leticya-2.mp4 (verticais).
-     Capas (opcional): assets/img/poster-dra-1.jpg e poster-dra-2.jpg. Sem vídeo, a seção some sozinha. -->
-<section class="auth sec wm wm-l" id="dra-explica" data-grupo>
+<!-- ================= VÍDEO DO DOUTOR =================
+     VÍDEO: assets/video/dr-geris-1.mp4 (capa: assets/img/poster-dr-geris-1.jpg) -->
+<section class="testi vid sec wm" id="dr-explica">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">A Dra. Letícya explica</span>
-      <h2>Tire suas dúvidas <em>em 1 minuto.</em></h2>
-      <p>Aperte o play.</p>
-    </div>
-    <div class="v-grid">
-      <div class="vcard" data-slot>
-        <div class="vframe">
-          <div class="vbox" data-video>
-            <img class="poster" src="assets/img/poster-dra-1.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
-            <video src="assets/video/dra-leticya-1.mp4" preload="none" playsinline></video>
-            <button class="vplay" type="button" aria-label="Assistir ao vídeo da Dra. Letícya"><span class="pbtn"><svg><use href="#i-play"/></svg></span><span>Assistir</span></button>
-            <span class="ph"><svg><use href="#i-video"/></svg><b>Vídeo da Dra. Letícya 1</b><small>assets/video/dra-leticya-1.mp4</small></span>
-          </div>
-        </div>
-        <h3>“Por que repor <em>o dente perdido?</em>”</h3>
-      </div>
-      <div class="vcard" data-slot>
-        <div class="vframe">
-          <div class="vbox" data-video>
-            <img class="poster" src="assets/img/poster-dra-2.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
-            <video src="assets/video/dra-leticya-2.mp4" preload="none" playsinline></video>
-            <button class="vplay" type="button" aria-label="Assistir ao vídeo da Dra. Letícya sobre implantes"><span class="pbtn"><svg><use href="#i-play"/></svg></span><span>Assistir</span></button>
-            <span class="ph"><svg><use href="#i-video"/></svg><b>Vídeo da Dra. Letícya 2</b><small>assets/video/dra-leticya-2.mp4</small></span>
-          </div>
-        </div>
-        <h3>“Como funciona <em>o implante?</em>”</h3>
+    <div class="vframe">
+      <div class="vbox" data-video>
+        <span class="vlabel"><i></i>Dr. Geris</span>
+        <img class="poster" src="assets/img/poster-dr-geris-1.jpg" alt="Dr. Geris explicando o tratamento na Odontoface" width="720" height="1280" loading="lazy">
+        <video src="assets/video/dr-geris-1.mp4" preload="none" playsinline></video>
+        <button class="vplay" type="button" aria-label="Assistir ao vídeo do Dr. Geris">
+          <span class="pbtn"><svg><use href="#i-play"/></svg></span>
+          <span>Aperte para assistir</span>
+        </button>
+        <span class="vtodo">Espaço para o vídeo do Dr. Geris<small>assets/video/dr-geris-1.mp4</small></span>
       </div>
     </div>
-    <div class="cta-row">
-      <button class="btn btn-cta btn-xl btn-shine" data-lead="Vídeos da doutora" type="button"><svg><use href="#i-wa"/></svg>Falar com a equipe</button>
+    <div class="text">
+      <span class="eyebrow">O Dr. Geris explica</span>
+      <h2>Tem medo de dentista? <em>Este vídeo é para você.</em></h2>
+      <p class="intro">Em menos de 1 minuto, o Dr. Geris mostra como a Odontoface ajuda quem quer voltar a sorrir e tem medo do dentista ou da cirurgia.</p>
+      <div class="cta-row">
+        <button class="btn btn-cta btn-xl btn-shine" data-lead="Vídeo do doutor" type="button"><svg><use href="#i-wa"/></svg>Quero falar com a equipe</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ================= CLÍNICA =================
-     FOTOS: envie para assets/img/clinica/ com os nomes clinica-01.jpg ... clinica-08.jpg (verticais, ideal 900 x 1200). -->
+     FOTOS: assets/img/clinica/clinica-01.jpg ... clinica-09.jpg (em pé, ~1080 x 1440).
+     A primeira foto aparece grande. -->
 <section class="clinic sec wm" id="clinica">
   <div class="wrap">
     <div class="sec-head">
@@ -958,14 +1083,15 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
       <p>Ambiente acolhedor, equipe preparada e tecnologia para cuidar do seu sorriso.</p>
     </div>
     <div class="mosaic" data-grupo>
-      <figure data-slot><img src="assets/img/clinica/clinica-01.jpg" alt="Recepção da Odontoface" width="900" height="1200" loading="lazy"><figcaption>Recepção</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Recepção</b><small>clinica/clinica-01.jpg</small></span></figure>
-      <figure data-slot><img src="assets/img/clinica/clinica-02.jpg" alt="Consultório da Odontoface" width="900" height="1200" loading="lazy"><figcaption>Consultório</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Consultório</b><small>clinica/clinica-02.jpg</small></span></figure>
-      <figure data-slot><img src="assets/img/clinica/clinica-03.jpg" alt="Sala de espera da Odontoface" width="900" height="1200" loading="lazy"><figcaption>Sala de espera</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Sala de espera</b><small>clinica/clinica-03.jpg</small></span></figure>
-      <figure data-slot><img src="assets/img/clinica/clinica-04.jpg" alt="Fachada da Odontoface" width="900" height="1200" loading="lazy"><figcaption>Fachada</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Fachada</b><small>clinica/clinica-04.jpg</small></span></figure>
-      <figure data-slot><img src="assets/img/clinica/clinica-05.jpg" alt="Equipe da Odontoface" width="900" height="1200" loading="lazy"><figcaption>Equipe</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Equipe</b><small>clinica/clinica-05.jpg</small></span></figure>
-      <figure data-slot><img src="assets/img/clinica/clinica-06.jpg" alt="Atendimento na Odontoface" width="900" height="1200" loading="lazy"><figcaption>Atendimento</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Atendimento</b><small>clinica/clinica-06.jpg</small></span></figure>
-      <figure data-slot><img src="assets/img/clinica/clinica-07.jpg" alt="Estrutura da Odontoface" width="900" height="1200" loading="lazy"><figcaption>Estrutura</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Estrutura</b><small>clinica/clinica-07.jpg</small></span></figure>
-      <figure data-slot><img src="assets/img/clinica/clinica-08.jpg" alt="Tecnologia da Odontoface" width="900" height="1200" loading="lazy"><figcaption>Tecnologia</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Tecnologia</b><small>clinica/clinica-08.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-01.jpg" alt="Recepção da Odontoface com o logo na parede" width="1080" height="1440" loading="lazy"><figcaption>Recepção</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Recepção</b><small>clinica/clinica-01.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-02.jpg" alt="Sala de avaliação da Odontoface" width="1080" height="1440" loading="lazy"><figcaption>Sala de avaliação</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Sala de avaliação</b><small>clinica/clinica-02.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-03.jpg" alt="Sala de espera da Odontoface" width="1080" height="1440" loading="lazy"><figcaption>Sala de espera</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Sala de espera</b><small>clinica/clinica-03.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-04.jpg" alt="Consultório odontológico da Odontoface" width="1080" height="1440" loading="lazy"><figcaption>Consultório</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Consultório</b><small>clinica/clinica-04.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-05.jpg" alt="Consultório de atendimento da Odontoface" width="1080" height="1440" loading="lazy"><figcaption>Atendimento</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Atendimento</b><small>clinica/clinica-05.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-06.jpg" alt="Fachada da Odontoface" width="1080" height="1440" loading="lazy"><figcaption>Fachada</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Fachada</b><small>clinica/clinica-06.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-07.jpg" alt="Equipe da Odontoface" width="1080" height="1440" loading="lazy"><figcaption>Equipe</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Equipe</b><small>clinica/clinica-07.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-08.jpg" alt="Tecnologia da Odontoface" width="1080" height="1440" loading="lazy"><figcaption>Tecnologia</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Tecnologia</b><small>clinica/clinica-08.jpg</small></span></figure>
+      <figure data-slot><img src="assets/img/clinica/clinica-09.jpg" alt="Estrutura da Odontoface" width="1080" height="1440" loading="lazy"><figcaption>Estrutura</figcaption><span class="ph claro"><svg><use href="#i-camera"/></svg><b>Estrutura</b><small>clinica/clinica-09.jpg</small></span></figure>
     </div>
 
     <div class="unidades">
@@ -973,7 +1099,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
         <div class="stat"><b>6</b><span>unidades<br>Odontoface</span></div>
         <h3>Unidade Pituba</h3>
         <div class="local-line"><svg><use href="#i-pin"/></svg><div><b>Avenida Paulo VI, 642, Casa</b>Pituba · Salvador/BA · CEP 41810-001</div></div>
-        <div class="local-line"><svg><use href="#i-phone"/></svg><div><b>Telefone</b><a href="tel:+557121012834">(71) 2101-2834</a></div></div>
+        <div class="local-line"><svg><use href="#i-phone"/></svg><div><b>Telefone e WhatsApp</b><a href="tel:+557121012834">(71) 2101-2834</a></div></div>
         <button class="btn btn-light btn-shine" data-lead="Unidade Pituba" type="button"><svg><use href="#i-wa"/></svg>Agendar nesta unidade</button>
       </div>
       <div class="mapa">
@@ -993,7 +1119,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
     <div class="s-grid">
       <div class="step"><div class="n">1</div><h3>Toque no botão</h3><p>Deixe seu nome e WhatsApp.</p></div>
       <div class="step"><div class="n">2</div><h3>Fale com a equipe</h3><p>Escolha o melhor dia e horário.</p></div>
-      <div class="step"><div class="n">3</div><h3>Faça sua avaliação</h3><p>A Dra. Letícya mostra o melhor caminho para você.</p></div>
+      <div class="step"><div class="n">3</div><h3>Faça sua avaliação</h3><p>O Dr. Geris mostra o melhor caminho para você.</p></div>
     </div>
   </div>
 </section>
@@ -1006,7 +1132,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
       <h2>Perguntas <em>frequentes.</em></h2>
     </div>
     <div class="faq-list">
-      <details><summary>Tenho medo de sentir dor. Como é?</summary><div class="ans">O procedimento é feito com anestesia local. Depois, o incômodo costuma ser leve e controlado com a medicação indicada pela dentista.</div></details>
+      <details><summary>Tenho medo de sentir dor. Como é?</summary><div class="ans">O procedimento é feito com anestesia local. Depois, o incômodo costuma ser leve e controlado com a medicação indicada pelo dentista.</div></details>
       <details><summary>Uso dentadura há anos. Ainda posso fazer implante?</summary><div class="ans">Na maioria dos casos, sim. A avaliação mostra quais opções existem para você, inclusive as próteses fixas e a overdenture.</div></details>
       <details><summary>Perdi osso. Ainda tenho chance?</summary><div class="ans">Muitas vezes, sim. Existem técnicas para diferentes situações, e a avaliação indica o caminho mais seguro para o seu caso.</div></details>
       <details><summary>Quanto tempo leva o tratamento?</summary><div class="ans">Depende do caso e da técnica indicada. Na avaliação você recebe o plano completo, com as etapas e os prazos.</div></details>
@@ -1024,8 +1150,8 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
       <h2>Seu novo sorriso <em>começa com uma conversa.</em></h2>
       <p class="big">Atendimento rápido pelo WhatsApp. Sem compromisso para tirar suas dúvidas.</p>
       <div class="final-dra">
-        <img src="assets/img/dra-leticya.jpg" alt="Dra. Letícya Santos Machado" width="900" height="1349" loading="lazy">
-        <div><b>Dra. Letícya Santos Machado</b><span>Avaliadora · Odontoface Pituba</span></div>
+        <img src="assets/img/dr-geris-avatar.jpg" alt="Dr. Geris Cavalcante" width="240" height="240" loading="lazy">
+        <div><b>Dr. Geris Cavalcante</b><span>CRO-BA 13730 · Odontoface Pituba</span></div>
       </div>
     </div>
     <div class="form-card">
@@ -1065,7 +1191,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);paddin
     <div>
       <h4>Responsáveis</h4>
       <p>Responsável técnica: Claudia Fagundes<br>EPAO 2343</p>
-      <p>Dra. Letícya Santos Machado<span class="todo"> · CRO-BA 00000<span class="todo-badge">inserir</span></span></p>
+      <p>Dr. Gerisnaldo Cavalcante Júnior<br>CRO-BA 13730</p>
     </div>
     <p class="legal">© <span id="ano"></span> Odontoface Odontologia e Estética · CNPJ 30.068.626/0001-09. Conteúdo informativo, não substitui a avaliação clínica. Os resultados variam de acordo com cada paciente. Imagens de pacientes reais publicadas com autorização.</p>
   </div>
@@ -1187,6 +1313,11 @@ window.dataLayer = window.dataLayer || [];
       var slots = g.querySelectorAll('[data-slot]');
       var vazios = g.querySelectorAll('[data-slot].vazio');
       g.classList.toggle('grupo-vazio', slots.length > 0 && slots.length === vazios.length);
+    });
+    document.querySelectorAll('[data-conta]').forEach(function(g){
+      var total = g.querySelectorAll('[data-slot]').length;
+      var reais = total - g.querySelectorAll('[data-slot].vazio').length;
+      g.setAttribute('data-vis', MODO_PREVIA ? total : reais);
     });
   }
   conferirGrupos();
@@ -1437,7 +1568,7 @@ window.dataLayer = window.dataLayer || [];
       if(!document.getElementById('modal').classList.contains('open')) document.body.classList.remove('lock');
       aberto = false;
     }
-    ['.track .rcard', '.mosaic figure'].forEach(function(sel){
+    ['.track .rcard', '.faces figure', '.mosaic figure'].forEach(function(sel){
       document.querySelectorAll(sel).forEach(function(f){
         var img = f.querySelector('img');
         f.classList.add('zoomable'); f.setAttribute('tabindex','0'); f.setAttribute('role','button');
@@ -1473,15 +1604,15 @@ window.dataLayer = window.dataLayer || [];
     ['.hero-text', '> *', 'up', .12],
     ['.sec-head', '> *', 'up', .12],
     ['.strip ul', '> li', 'up', .08],
-    ['.testi .wrap', '> .vframe', 'left', 0],
+    ['.testi .wrap', '> .vframe', 'zoom', 0],
     ['.testi .text', '> *', 'right', .12],
     ['.reviews', '> .review', 'up', .12],
     ['.pain-grid', '> .pain', 'up', .08],
     ['.dor', '.truth', 'zoom', 0],
-    ['#antes-e-depois', '.carousel', 'up', 0],
+    ['.res-grid', '> .res-panel', 'up', .14],
     ['.t-grid', '> .tcard', 'up', .12],
     ['.comp', '.vs', 'up', 0],
-    ['.v-grid', '> .vcard', 'up', .16],
+    ['.vid .text', '> *', 'left', .12],
     ['.doc .wrap', '> .doc-photo', 'left', 0],
     ['.doc-text', '> :not(.btn)', 'right', .08],
     ['.mosaic', '> figure', 'zoom', .08],
