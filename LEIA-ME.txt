@@ -37,7 +37,7 @@ O QUE TEM NESTA PASTA
 
 4) CONFIGURAR O index.html (bloco CONFIG, perto do final do arquivo)
    - WHATSAPP_NUMBER: já configurado com 55 71 2101-2834
-   - APPS_SCRIPT_URL: a URL /exec do passo 3
+   - APPS_SCRIPT_URL: já configurada com a planilha da Odontoface (passo 3)
    - GTM_ID: quando o gestor de tráfego enviar, ex.: "GTM-ABC1234" (o GTM carrega sozinho)
 
 
